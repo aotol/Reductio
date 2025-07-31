@@ -21,9 +21,10 @@ struct Keyword: Sendable {
   func execute() -> [String] {
     let ranking = TextRank<String>()
     buildGraph(ranking: ranking)
-    return ranking.execute()
-      .sorted { $0.1 > $1.1 }
-      .map { $0.0 }
+    let value = ranking.execute()
+          .sorted { $0.1 > $1.1 }
+          .map { $0.0 }
+    return value
   }
   
   private func buildGraph(ranking: TextRank<String>) {

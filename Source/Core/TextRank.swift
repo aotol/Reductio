@@ -62,11 +62,7 @@ final class TextRank<T: Hashable & Sendable> {
         return result + nodeValue / outlinkValue * weightValue
       }
       //vertex[node] = (1 - damping / nodes.count) + damping * score
-        if score.isNaN {
-            vertex[node] = (1-damping/nodes.count) + damping * 0.0
-        } else {
-            vertex[node] = (1-damping/nodes.count) + damping * score
-        }
+      vertex[node] = (1 - damping / nodes.count) + damping * (score.isNaN ? 0.0 : score)
     }
     return vertex
   }
@@ -79,6 +75,8 @@ final class TextRank<T: Hashable & Sendable> {
       let currentValue = current[pair.0] ?? 0
       return result + pow(currentValue - pair.1, 2)
     }
+   //let dynamicThreshold = max(convergence, 1.0 / Float(max(current.count, 1)))
+
     return sqrtf(total / current.count) < convergence
   }
 }
