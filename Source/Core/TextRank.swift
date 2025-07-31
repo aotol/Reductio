@@ -61,7 +61,12 @@ final class TextRank<T: Hashable & Sendable> {
         let weightValue = weights[link]?[node] ?? 0
         return result + nodeValue / outlinkValue * weightValue
       }
-      vertex[node] = (1 - damping / nodes.count) + damping * score
+      //vertex[node] = (1 - damping / nodes.count) + damping * score
+        if score.isNaN {
+            vertex[node] = (1-damping/nodes.count) + damping * 0.0
+        } else {
+            vertex[node] = (1-damping/nodes.count) + damping * score
+        }
     }
     return vertex
   }
